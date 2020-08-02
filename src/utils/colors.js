@@ -11,6 +11,8 @@ const common = {
   salaryRevenues: '#3BD8AC',
   loanRevenues: '#6DD83B',
   othersRevenues: '#D8943B',
+  primary: '#E72B75',
+  accent: '#3626A7',
 };
 
 export const colorPallete = {
