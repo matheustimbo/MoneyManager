@@ -4,12 +4,14 @@ import React, {useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import useColors from '../hooks/useColors';
+import moment from 'moment';
 
 const Loading = ({navigation}) => {
   const [colors] = useColors();
 
   useEffect(()=>{
     navigation.navigate(auth().currentUser ? 'MainFlow' : 'LoginFlow');
+    //moment.defineLocale('pt-br');
   },[]);
 
   return <View style={[styles.screen, {backgroundColor: colors.background}]}>

@@ -2,6 +2,7 @@
 import {useEffect, useState} from 'react';
 import {texts} from '../utils/texts';
 import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
 import {useNavigation} from '@react-navigation/native';
 
 export default () => {
@@ -15,6 +16,8 @@ export default () => {
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
+  const [loading, setLoading] = useState(false);
+
   const onTrySignUp = () => {
     setEmailError('');
     setNameError('');
@@ -25,13 +28,23 @@ export default () => {
     if (password.length < 6) {
       return setPasswordError(texts.passwordError);
     }
+    setLoading(true);
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
-        console.log('User account created & signed in!');
-        navigation.navigate('MainFlow');
+        database()
+          .ref(`users/${auth().currentUser.uid}`)
+          .push({
+            name,
+            email,
+          })
+          .then(() => {
+            setLoading(false);
+            navigation.navigate('MainFlow');
+          });
       })
       .catch((error) => {
+        setLoading(false);
         if (error.code === 'auth/email-already-in-use') {
           console.log('That email address is already in use!');
           setEmailError(texts.emailInUseError);
@@ -57,5 +70,6 @@ export default () => {
     setPassword,
     passwordError,
     onTrySignUp,
+    loading,
   ];
 };

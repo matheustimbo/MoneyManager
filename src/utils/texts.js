@@ -14,4 +14,7 @@ export const texts = {
   signInAnonimously: 'Entrar como visitante',
   expense: 'Despesa',
   revenue: 'Renda',
+  transactionValue: 'Valor da transação',
+  description: 'Descrição',
+  addTransaction: 'Adicionar transação',
 };

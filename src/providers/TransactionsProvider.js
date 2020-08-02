@@ -1,7 +1,17 @@
 import createDataContext from './createDataContext';
+import {getTransactions} from '../api/firebase';
+import moment from 'moment';
 
 const transactionsReducer = (state, action) => {
   switch (action.type) {
+    case 'set_transactions':
+      return {
+        ...state,
+        loadingTransactions: false,
+        transactions: [...action.payload],
+      };
+    case 'set_loading_transactions':
+      return {...state, loadingTransactions: action.payload};
     case 'change_new_transaction_type':
       return {
         ...state,
@@ -40,17 +50,48 @@ const changeNewTransactionType = (dispatch) => (newType) => {
   dispatch({type: 'change_new_transaction_type', payload: newType});
 };
 
+const changeNewTransactionDescription = (dispatch) => (newDescription) => {
+  dispatch({
+    type: 'change_new_transaction_description',
+    payload: newDescription,
+  });
+};
+
+const changeNewTransactionValue = (dispatch) => (newValue) => {
+  dispatch({type: 'change_new_transaction_value', payload: newValue});
+};
+
+const changeNewTransactionDate = (dispatch) => (newDate) => {
+  dispatch({type: 'change_new_transaction_date', payload: newDate});
+};
+
+const resetNewTransaction = (dispatch) => () => {
+  dispatch({type: 'reset_new_transaction'});
+};
+
+const loadTransactions = (dispatch) => async () => {
+  dispatch({type: 'set_loading_transactions', payload: true});
+  let transactions = await getTransactions();
+  dispatch({type: 'set_transactions', payload: transactions});
+};
+
 export const {Provider, Context} = createDataContext(
   transactionsReducer,
   {
     //methods
     changeNewTransactionType,
+    changeNewTransactionDescription,
+    changeNewTransactionValue,
+    changeNewTransactionDate,
+    resetNewTransaction,
+    loadTransactions,
   },
   {
     //initial state
     transactions: [],
+    loadingTransactions: false,
     newTransaction: {
-      date: new Date(),
+      date: moment(new Date()).valueOf(),
       value: 0.0,
       description: '',
       type: 'revenue',

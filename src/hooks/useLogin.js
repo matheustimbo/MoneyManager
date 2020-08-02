@@ -10,15 +10,19 @@ export default () => {
   const [emailError, setEmailError] = useState('');
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const onTryLogin = () => {
     setPasswordError('');
+    setLoading(true);
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(() => {
+        setLoading(false);
         navigation.navigate('MainFlow');
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error);
         if (error.code === 'auth/wrong-password') {
           setPasswordError(texts.wrongUserError);
@@ -35,5 +39,6 @@ export default () => {
     passwordError,
     setPasswordError,
     onTryLogin,
+    loading,
   ];
 };

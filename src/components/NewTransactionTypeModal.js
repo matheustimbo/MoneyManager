@@ -14,7 +14,7 @@ import Add from '../assets/svgs/Add.svg';
 import Minus from '../assets/svgs/Minus.svg';
 import {texts} from '../utils/texts';
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const NewTransactionTypeModal = ({visible, setVisible, onSelectType}) => {
   const [colors] = useColors();
@@ -37,7 +37,7 @@ const NewTransactionTypeModal = ({visible, setVisible, onSelectType}) => {
               ]}>
               <TouchableOpacity
                 style={styles.optionContainer}
-                onPress={() => console.log('onselect', onSelectType)}>
+                onPress={() => onSelectType('Revenue')}>
                 <Add width={32} height={32} />
                 <Text style={styles.optionText}>{texts.revenue}</Text>
               </TouchableOpacity>
@@ -46,7 +46,7 @@ const NewTransactionTypeModal = ({visible, setVisible, onSelectType}) => {
               />
               <TouchableOpacity
                 style={styles.optionContainer}
-                onPress={() => console.log('onselect', onSelectType)}>
+                onPress={() => onSelectType('Expense')}>
                 <Minus width={32} height={32} />
                 <Text style={styles.optionText}>{texts.expense}</Text>
               </TouchableOpacity>
