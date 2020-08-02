@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect, useState} from 'react';
 import {texts} from '../utils/texts';
-import auth from '@react-native-firebase/auth';
-import database from '@react-native-firebase/database';
 import {useNavigation} from '@react-navigation/native';
+import {signUp, registerUserData} from '../api/firebase';
 
 export default () => {
   const navigation = useNavigation();
@@ -29,19 +28,12 @@ export default () => {
       return setPasswordError(texts.passwordError);
     }
     setLoading(true);
-    auth()
-      .createUserWithEmailAndPassword(email, password)
+    signUp(email.trim(), password)
       .then(() => {
-        database()
-          .ref(`users/${auth().currentUser.uid}`)
-          .push({
-            name,
-            email,
-          })
-          .then(() => {
-            setLoading(false);
-            navigation.navigate('MainFlow');
-          });
+        registerUserData(name, email).then(() => {
+          setLoading(false);
+          navigation.navigate('MainFlow');
+        });
       })
       .catch((error) => {
         setLoading(false);

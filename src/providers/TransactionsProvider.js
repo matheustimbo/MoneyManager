@@ -92,7 +92,8 @@ export const {Provider, Context} = createDataContext(
     loadingTransactions: false,
     newTransaction: {
       date: moment(new Date()).valueOf(),
-      value: 0.0,
+      value: 0,
+      currency: 'BRL',
       description: '',
       type: 'revenue',
     },

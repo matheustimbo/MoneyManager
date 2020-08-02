@@ -4,7 +4,7 @@ import {texts} from '../../utils/texts';
 import useColors from '../../hooks/useColors';
 import TextInput from '../../components/TextInput';
 import useLogin from '../../hooks/useLogin';
-import auth from '@react-native-firebase/auth';
+import {signInAnonymously} from '../../api/firebase';
 
 const Login = ({navigation}) => {
   const [colors] = useColors();
@@ -41,9 +41,7 @@ const Login = ({navigation}) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() =>
-          auth()
-            .signInAnonymously()
-            .then(() => navigation.navigate('MainFlow'))
+          signInAnonymously().then(() => navigation.navigate('MainFlow'))
         }>
         <Text>{texts.signInAnonimously}</Text>
       </TouchableOpacity>

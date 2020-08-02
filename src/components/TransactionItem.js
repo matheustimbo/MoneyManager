@@ -5,7 +5,9 @@ import useColors from '../hooks/useColors';
 
 const {width} = Dimensions.get('window');
 
-const TransactionItem = ({transaction: {type, value, description, date}}) => {
+const TransactionItem = ({
+  transaction: {type, maskedValue, description, date},
+}) => {
   const [colors] = useColors();
   return (
     <View
@@ -22,7 +24,7 @@ const TransactionItem = ({transaction: {type, value, description, date}}) => {
       </View>
       <View style={styles.valueContainer}>
         <Text>{type === 'Revenue' ? '+' : '-'}</Text>
-        <Text>{value}</Text>
+        <Text>{maskedValue}</Text>
       </View>
     </View>
   );

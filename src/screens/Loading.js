@@ -2,15 +2,19 @@
 /* eslint-disable prettier/prettier */
 import React, {useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import auth from '@react-native-firebase/auth';
 import useColors from '../hooks/useColors';
 import moment from 'moment';
+import {getCurrentUser} from '../api/firebase';
 
 const Loading = ({navigation}) => {
   const [colors] = useColors();
 
   useEffect(()=>{
-    navigation.navigate(auth().currentUser ? 'MainFlow' : 'LoginFlow');
+    console.log('entrou');
+    getCurrentUser().then(currentUser=>{
+      navigation.navigate(currentUser ? 'MainFlow' : 'LoginFlow');
+    });
+
     //moment.defineLocale('pt-br');
   },[]);
 

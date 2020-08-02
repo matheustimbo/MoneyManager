@@ -4,8 +4,8 @@ import {useColorScheme} from 'react-native';
 import {colorPallete} from '../utils/colors';
 import {useNavigation} from '@react-navigation/native';
 import {Context as TransactionsContext} from '../providers/TransactionsProvider';
-import database from '@react-native-firebase/database';
-import auth from '@react-native-firebase/auth';
+import {texts} from '../utils/texts';
+import {addNewTransaction} from '../api/firebase';
 
 export default () => {
   const navigation = useNavigation();
@@ -21,6 +21,11 @@ export default () => {
   } = useContext(TransactionsContext);
 
   const [showChooseTypeModal, setShowChooseTypeModal] = useState(false);
+  const [
+    transactionDescriptionError,
+    setTransactionDescriptionError,
+  ] = useState('');
+  const [transactionValueError, setTransactionValueError] = useState('');
 
   const onSelectType = (newType) => {
     changeNewTransactionType(newType);
@@ -28,12 +33,22 @@ export default () => {
     navigation.navigate('AddNewTransaction');
   };
 
-  const addTransaction = () => {
-    if (newTransaction.description === '') {
+  const addTransaction = async () => {
+    if (newTransaction.value === 0) {
+      return setTransactionValueError(texts.transactionValueError);
     }
-    database()
-      .ref(`transactions/${auth().currentUser.uid}`)
-      .push(newTransaction)
+    if (newTransaction.description === '') {
+      return setTransactionDescriptionError(texts.transactionDescriptionError);
+    }
+
+    console.log('new transaction', newTransaction);
+    let numberPattern = /\d+/g;
+    console.log('vamo ver', newTransaction.value.match(numberPattern).join(''));
+    let transaction = newTransaction;
+    transaction.maskedValue = transaction.value;
+    transaction.value = transaction.value.match(numberPattern).join('');
+
+    await addNewTransaction(transaction)
       .then(() => {
         resetNewTransaction();
         loadTransactions();
@@ -54,5 +69,9 @@ export default () => {
     changeNewTransactionValue,
     changeNewTransactionDate,
     addTransaction,
+    transactionDescriptionError,
+    setTransactionDescriptionError,
+    transactionValueError,
+    setTransactionValueError,
   ];
 };

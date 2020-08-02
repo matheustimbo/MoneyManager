@@ -22,6 +22,10 @@ const AddNewTransaction = ({ navigation }) => {
     changeNewTransactionValue,
     changeNewTransactionDate,
     addTransaction,
+    transactionDescriptionError,
+    setTransactionDescriptionError,
+    transactionValueError,
+    setTransactionValueError,
   ] = useNewTransaction();
   return (
     <View style={[styles.screen, { backgroundColor: colors.background }]}>
@@ -32,12 +36,16 @@ const AddNewTransaction = ({ navigation }) => {
         setText={changeNewTransactionValue}
         placeholder={texts.transactionValue}
         moneyMask
+        error={transactionValueError}
+        setError={setTransactionValueError}
       />
       <TextInput
         label={texts.description}
         text={newTransaction.description}
         setText={changeNewTransactionDescription}
         placeholder={texts.description}
+        error={transactionDescriptionError}
+        setError={setTransactionDescriptionError}
       />
       <TouchableOpacity onPress={addTransaction}>
         <Text>{texts.addTransaction}</Text>

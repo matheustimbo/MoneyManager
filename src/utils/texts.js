@@ -5,8 +5,10 @@ export const texts = {
   passwordPlaceholder: 'Senha',
   invalidEmailError: 'Email inválido',
   emailInUseError: 'Esse email já está sendo usado',
+  noEmailError: 'Insira seu email',
   nameError: 'Nome muito curto',
   passwordError: 'Senha muito curta',
+  noPasswordError: 'Insira sua senha',
   continue: 'Continuar',
   signUp: 'Cadastro',
   login: 'Login',
@@ -17,4 +19,6 @@ export const texts = {
   transactionValue: 'Valor da transação',
   description: 'Descrição',
   addTransaction: 'Adicionar transação',
+  transactionDescriptionError: 'Insira uma descrição sobre sua transação',
+  transactionValueError: 'Insira o valor da transação',
 };

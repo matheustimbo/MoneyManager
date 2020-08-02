@@ -8,7 +8,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import useColors from '../hooks/useColors';
-import { TextInputMask } from 'react-native-masked-text';
+import {TextInputMask} from 'react-native-masked-text';
 
 const {width} = Dimensions.get('window');
 
@@ -27,38 +27,44 @@ const TextInput = ({
   return (
     <View>
       <Text>{label}</Text>
-      {moneyMask ?
+      {moneyMask ? (
         <TextInputMask
-        type={'money'}
-        value={text}
-        onChangeText={text=>setText(text)}
-        autoFocus
-      style={[
-        styles.input,
-        {
-          borderColor: error !== '' ? colors.error : colors.primary,
-          backgroundColor: colors.inputBackground,
-        },
-      ]}
-      placeholder={placeholder}
-      />
-      :
-      <DefaultTextInput
-      autoFocus
-      style={[
-        styles.input,
-        {
-          borderColor: error !== '' ? colors.error : colors.primary,
-          backgroundColor: colors.inputBackground,
-        },
-      ]}
-      placeholder={placeholder}
-      value={text}
-      onChangeText={setText}
-      secureTextEntry={secureTextEntry}
-      autoCapitalize={autoCapitalize}
-    />
-      }
+          type={'money'}
+          value={text}
+          onChangeText={(newText) => {
+            setError('');
+            setText(newText);
+          }}
+          autoFocus
+          style={[
+            styles.input,
+            {
+              borderColor: error !== '' ? colors.error : colors.primary,
+              backgroundColor: colors.inputBackground,
+            },
+          ]}
+          placeholder={placeholder}
+        />
+      ) : (
+        <DefaultTextInput
+          autoFocus
+          style={[
+            styles.input,
+            {
+              borderColor: error !== '' ? colors.error : colors.primary,
+              backgroundColor: colors.inputBackground,
+            },
+          ]}
+          placeholder={placeholder}
+          value={text}
+          onChangeText={(newText) => {
+            setError('');
+            setText(newText);
+          }}
+          secureTextEntry={secureTextEntry}
+          autoCapitalize={autoCapitalize}
+        />
+      )}
 
       <Text>{error}</Text>
     </View>

@@ -1,15 +1,15 @@
 import React from 'react';
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
-import auth from '@react-native-firebase/auth';
+import {signOut} from '../../api/firebase';
 
 const Profile = ({navigation}) => {
   return (
     <View style={styles.screen}>
       <TouchableOpacity
         onPress={() => {
-          auth()
-            .signOut()
-            .then(() => navigation.navigate('LoginFlow', {screen: 'Login'}));
+          signOut().then(() =>
+            navigation.navigate('LoginFlow', {screen: 'Login'}),
+          );
         }}>
         <Text>Signout</Text>
       </TouchableOpacity>

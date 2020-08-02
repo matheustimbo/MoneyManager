@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect, useState} from 'react';
-import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 import {texts} from '../utils/texts';
+import {signIn} from '../api/firebase';
 
 export default () => {
   const navigation = useNavigation();
@@ -13,10 +13,15 @@ export default () => {
   const [loading, setLoading] = useState(false);
 
   const onTryLogin = () => {
+    if (email === '') {
+      return setEmailError(texts.noEmailError);
+    }
+    if (password === '') {
+      return setPasswordError(texts.noPasswordError);
+    }
     setPasswordError('');
     setLoading(true);
-    auth()
-      .signInWithEmailAndPassword(email, password)
+    signIn(email.trim(), password)
       .then(() => {
         setLoading(false);
         navigation.navigate('MainFlow');
