@@ -11,6 +11,7 @@ import NewTransactionTypeModal from '../../../components/NewTransactionTypeModal
 import TransactionItem from '../../../components/TransactionItem';
 import useNewTransaction from '../../../hooks/useNewTransaction';
 import {Context as TransactionsContext} from '../../../providers/TransactionsProvider';
+import useColors from '../../../hooks/useColors';
 
 const Home = ({navigation}) => {
   const {
@@ -23,6 +24,8 @@ const Home = ({navigation}) => {
     showChooseTypeModal,
     setShowChooseTypeModal,
   ] = useNewTransaction();
+
+  const [colors] = useColors();
 
   useEffect(() => {
     loadTransactions();

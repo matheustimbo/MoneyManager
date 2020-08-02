@@ -1,5 +1,6 @@
 import createDataContext from './createDataContext';
 import {getTransactions} from '../api/firebase';
+import {categories} from '../utils/categories';
 import moment from 'moment';
 
 const transactionsReducer = (state, action) => {
@@ -96,6 +97,7 @@ export const {Provider, Context} = createDataContext(
       currency: 'BRL',
       description: '',
       type: 'revenue',
+      category: undefined,
     },
   },
 );

@@ -5,6 +5,7 @@ import {Provider as TransactionsProvider} from '../../providers/TransactionsProv
 
 import HomeStack from './HomeStack';
 import Profile from './Profile';
+import Statistics from './Statistics';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,6 +18,7 @@ export default function MainFlow() {
         }}>
         <Tab.Screen name="HomeStack" component={HomeStack} />
         <Tab.Screen name="Profile" component={Profile} />
+        <Tab.Screen name="Statistics" component={Statistics} />
       </Tab.Navigator>
     </TransactionsProvider>
   );
