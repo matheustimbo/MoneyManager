@@ -3,6 +3,7 @@ import {Dimensions, Animated, StyleSheet} from 'react-native';
 import useColors from '../hooks/useColors';
 import ExpandedHeaderContent from './ExpandedHeaderContent';
 import FixedHeaderContent from './FixedHeaderContent';
+import LinearGradient from 'react-native-linear-gradient';
 
 const {width} = Dimensions.get('window');
 
@@ -19,7 +20,7 @@ const Header = ({
       style={[
         styles.screenHeader,
         {
-          backgroundColor: colors.primary,
+          //backgroundColor: colors.primary,
           height: scrollY.interpolate({
             inputRange: [0, EXPANDED_HEADER_HEIGHT - FIXED_HEADER_HEIGHT],
             outputRange: [EXPANDED_HEADER_HEIGHT, FIXED_HEADER_HEIGHT],
@@ -27,21 +28,27 @@ const Header = ({
           }),
         },
       ]}>
-      <FixedHeaderContent
-        scrollY={scrollY}
-        name={name}
-        FIXED_HEADER_HEIGHT={FIXED_HEADER_HEIGHT}
-        EXPANDED_HEADER_HEIGHT={EXPANDED_HEADER_HEIGHT}
-        maskedBalance={maskedBalance}
-      />
+      <LinearGradient
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 0}}
+        colors={[colors.gradientColor1, colors.gradientColor2]}
+        style={StyleSheet.absoluteFill}>
+        <FixedHeaderContent
+          scrollY={scrollY}
+          name={name}
+          FIXED_HEADER_HEIGHT={FIXED_HEADER_HEIGHT}
+          EXPANDED_HEADER_HEIGHT={EXPANDED_HEADER_HEIGHT}
+          maskedBalance={maskedBalance}
+        />
 
-      <ExpandedHeaderContent
-        scrollY={scrollY}
-        name={name}
-        FIXED_HEADER_HEIGHT={FIXED_HEADER_HEIGHT}
-        EXPANDED_HEADER_HEIGHT={EXPANDED_HEADER_HEIGHT}
-        maskedBalance={maskedBalance}
-      />
+        <ExpandedHeaderContent
+          scrollY={scrollY}
+          name={name}
+          FIXED_HEADER_HEIGHT={FIXED_HEADER_HEIGHT}
+          EXPANDED_HEADER_HEIGHT={EXPANDED_HEADER_HEIGHT}
+          maskedBalance={maskedBalance}
+        />
+      </LinearGradient>
     </Animated.View>
   );
 };
