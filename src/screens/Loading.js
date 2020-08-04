@@ -1,12 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 import React, {useEffect, useContext} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Dimensions, StyleSheet} from 'react-native';
 import useColors from '../hooks/useColors';
-import moment from 'moment';
 import {getCurrentUser, getUserInfo} from '../api/firebase';
 import {Context as UserContext} from '../providers/UserProvider';
 import StatusBar from '../components/StatusBar';
+import Logo from '../assets/svgs/Logo';
+
+const { width} = Dimensions.get('window');
 
 const Loading = ({navigation}) => {
   const [colors] = useColors();
@@ -33,7 +35,7 @@ const Loading = ({navigation}) => {
 
   return <View style={[styles.screen, {backgroundColor: colors.background}]}>
     <StatusBar />
-    <Text style={{color: colors.regularText}}>Loading</Text>
+    <Logo width={width / 2} height={width / 2} />
   </View>;
 };
 
