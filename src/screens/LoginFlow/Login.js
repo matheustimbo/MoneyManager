@@ -4,7 +4,6 @@ import {texts} from '../../utils/texts';
 import useColors from '../../hooks/useColors';
 import TextInput from '../../components/TextInput';
 import useLogin from '../../hooks/useLogin';
-import {signInAnonymously} from '../../api/firebase';
 
 const Login = ({navigation}) => {
   const [colors] = useColors();
@@ -12,11 +11,14 @@ const Login = ({navigation}) => {
     email,
     setEmail,
     emailError,
+    setEmailError,
     password,
     setPassword,
     passwordError,
     setPasswordError,
     onTryLogin,
+    onTryLoginAnonymously,
+    loading,
   ] = useLogin();
   return (
     <View style={[styles.screen, {backgroundColor: colors.background}]}>
@@ -26,6 +28,7 @@ const Login = ({navigation}) => {
         setText={setEmail}
         placeholder={texts.emailPlaceholder}
         error={emailError}
+        setError={setEmailError}
         autoCapitalize={false}
       />
       <TextInput
@@ -35,14 +38,12 @@ const Login = ({navigation}) => {
         secureTextEntry={true}
         placeholder={texts.passwordPlaceholder}
         error={passwordError}
+        setError={setPasswordError}
       />
       <TouchableOpacity onPress={onTryLogin}>
         <Text>{texts.login}</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() =>
-          signInAnonymously().then(() => navigation.navigate('MainFlow'))
-        }>
+      <TouchableOpacity onPress={onTryLoginAnonymously}>
         <Text>{texts.signInAnonimously}</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>

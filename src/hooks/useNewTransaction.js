@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Context as TransactionsContext} from '../providers/TransactionsProvider';
 import {texts} from '../utils/texts';
 import {addNewTransaction} from '../api/firebase';
+import {categories, categoriesArray} from '../utils/categories';
 
 export default () => {
   const navigation = useNavigation();
@@ -15,6 +16,7 @@ export default () => {
     changeNewTransactionDescription,
     changeNewTransactionValue,
     changeNewTransactionDate,
+    changeNewTransactionCategory,
     loadTransactions,
     resetNewTransaction,
     state: {newTransaction},
@@ -26,12 +28,6 @@ export default () => {
     setTransactionDescriptionError,
   ] = useState('');
   const [transactionValueError, setTransactionValueError] = useState('');
-
-  const onSelectType = (newType) => {
-    changeNewTransactionType(newType);
-    setShowChooseTypeModal(false);
-    navigation.navigate('AddNewTransaction');
-  };
 
   const addTransaction = async () => {
     if (newTransaction.value === 0) {
@@ -59,15 +55,24 @@ export default () => {
       });
   };
 
+  const onTryChangeNewTransactionType = (newType) => {
+    changeNewTransactionType(newType);
+    if (newType === texts.revenue) {
+      changeNewTransactionCategory(categoriesArray.revenues[0]);
+    } else {
+      changeNewTransactionCategory(categoriesArray.expenses[0]);
+    }
+  };
+
   return [
-    onSelectType,
     showChooseTypeModal,
     setShowChooseTypeModal,
     newTransaction,
-    changeNewTransactionType,
+    onTryChangeNewTransactionType,
     changeNewTransactionDescription,
     changeNewTransactionValue,
     changeNewTransactionDate,
+    changeNewTransactionCategory,
     addTransaction,
     transactionDescriptionError,
     setTransactionDescriptionError,
