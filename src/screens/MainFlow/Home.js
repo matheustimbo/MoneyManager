@@ -15,12 +15,13 @@ import useColors from '../../hooks/useColors';
 import LinearGradient from 'react-native-linear-gradient';
 import {texts} from '../../utils/texts';
 import AddTransactionFab from '../../components/AddTransactionFab';
-import LogoutButton from '../../components/LogoutButton';
+import Header from '../../components/Header';
 import {getStatusBarHeight} from 'react-native-iphone-x-helper';
 import useTransactions from '../../hooks/useTransactions';
 import WeekDayVerticalBar from '../../components/WeekDayVerticalBar';
 import {formatAmount} from '../../utils/currency';
 import TransactionsHeader from '../../components/TransactionsHeader';
+import HomeScrollableContent from '../../components/HomeScrollableContent';
 
 const {width, height} = Dimensions.get('window');
 
@@ -60,115 +61,23 @@ const Home = ({navigation}) => {
       end={{x: 1, y: 0}}
       colors={[colors.gradientColor1, colors.gradientColor2]}
       style={styles.screen}>
-      <Animated.ScrollView
-        style={{flex: 1}}
-        showsVerticalScrollIndicator={false}
-        onScroll={Animated.event(
-          [{nativeEvent: {contentOffset: {y: scrollY}}}],
-          {useNativeDriver: false},
-        )}>
-        <View style={[styles.contentContainer]}>
-          <View style={styles.containerHeader}>
-            <View style={styles.amountContainer}>
-              <Text style={[styles.weekAmount, {color: colors.revenueAmount}]}>
-                {formatAmount(weekRevenuesAmount)}
-              </Text>
-              <Text>{texts.in}</Text>
-            </View>
-            <View style={styles.amountContainer}>
-              <Text style={[styles.weekAmount, {color: colors.expenseAmount}]}>
-                {formatAmount(weekExpensesAmount)}
-              </Text>
-              <Text>{texts.out}</Text>
-            </View>
-          </View>
-          <View style={styles.daysBarsContainer}>
-            {weekDaysAmounts.map((day, index) => (
-              <WeekDayVerticalBar dayAmounts={day} dayIndex={index} />
-            ))}
-          </View>
-          <TransactionsHeader />
-          {transactions
-            .sort((t1, t2) => t1.date < t2.date)
-            .map((transaction) => (
-              <TransactionItem transaction={transaction} />
-            ))}
-        </View>
-      </Animated.ScrollView>
-      <Animated.View
-        style={[
-          styles.screenHeader,
-          {
-            backgroundColor: colors.primary,
-            height: scrollY.interpolate({
-              inputRange: [0, EXPANDED_HEADER_HEIGHT - FIXED_HEADER_HEIGHT],
-              outputRange: [EXPANDED_HEADER_HEIGHT, FIXED_HEADER_HEIGHT],
-              extrapolate: 'clamp',
-            }),
-          },
-        ]}>
-        <Animated.View
-          style={[
-            StyleSheet.absoluteFill,
-            styles.minimalHeader,
-            {
-              opacity: scrollY.interpolate({
-                inputRange: [
-                  EXPANDED_HEADER_HEIGHT / 2,
-                  EXPANDED_HEADER_HEIGHT - FIXED_HEADER_HEIGHT,
-                ],
-                outputRange: [0, 1],
-                extrapolate: 'clamp',
-              }),
-            },
-          ]}>
-          <Text
-            style={[
-              styles.minimizedHeaderBalance,
-              {color: colors.coloredBgText},
-            ]}>
-            {maskedBalance}
-          </Text>
-        </Animated.View>
-        <Animated.View
-          style={[
-            StyleSheet.absoluteFill,
-            styles.header,
-            {
-              zIndex: scrollY.interpolate({
-                inputRange: [0, 50],
-                outputRange: [1, -1],
-                extrapolate: 'clamp',
-              }),
-              opacity: scrollY.interpolate({
-                inputRange: [0, FIXED_HEADER_HEIGHT],
-                outputRange: [1, 0],
-                extrapolate: 'clamp',
-              }),
-            },
-          ]}>
-          <View style={[styles.internalHeader]}>
-            <View>
-              <Text style={[styles.welcome, {color: colors.coloredBgText}]}>
-                {texts.welcome}
-              </Text>
-              <Text style={[styles.name, {color: colors.coloredBgText}]}>
-                {name}
-              </Text>
-            </View>
-            <LogoutButton />
-          </View>
-          <View style={styles.headerBalance}>
-            <Text style={[styles.balanceLabel, {color: colors.coloredBgText}]}>
-              {texts.currentBalance}
-            </Text>
-            <Text style={[styles.balance, {color: colors.coloredBgText}]}>
-              {maskedBalance}
-            </Text>
-          </View>
-        </Animated.View>
-      </Animated.View>
+      <HomeScrollableContent
+        scrollY={scrollY}
+        weekRevenuesAmount={weekRevenuesAmount}
+        weekExpensesAmount={weekExpensesAmount}
+        weekDaysAmounts={weekDaysAmounts}
+        transactions={transactions}
+        EXPANDED_HEADER_HEIGHT={EXPANDED_HEADER_HEIGHT}
+        FIXED_HEADER_HEIGHT={FIXED_HEADER_HEIGHT}
+      />
 
+      <Header
+        scrollY={scrollY}
+        EXPANDED_HEADER_HEIGHT={EXPANDED_HEADER_HEIGHT}
+        FIXED_HEADER_HEIGHT={FIXED_HEADER_HEIGHT}
+        maskedBalance={maskedBalance}
+        name={name}
+      />
       <AddTransactionFab />
     </LinearGradient>
   );
