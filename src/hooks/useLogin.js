@@ -1,8 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {texts} from '../utils/texts';
 import {signIn} from '../api/firebase';
+import {signInAnonymously, getUserInfo} from '../api/firebase';
+import {Context as UserContext} from '../providers/UserProvider';
+import {Context as TransactionsContext} from '../providers/TransactionsProvider';
 
 export default () => {
   const navigation = useNavigation();
@@ -11,6 +14,7 @@ export default () => {
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [loading, setLoading] = useState(false);
+  const {setUserInfo} = useContext(UserContext);
 
   const onTryLogin = () => {
     if (email === '') {
@@ -23,8 +27,11 @@ export default () => {
     setLoading(true);
     signIn(email.trim(), password)
       .then(() => {
-        setLoading(false);
-        navigation.navigate('MainFlow');
+        getUserInfo().then((userInfo) => {
+          setUserInfo(userInfo.name, userInfo.email);
+          setLoading(false);
+          navigation.navigate('MainFlow');
+        });
       })
       .catch((error) => {
         setLoading(false);
@@ -35,15 +42,25 @@ export default () => {
       });
   };
 
+  const onTryLoginAnonymously = () => {
+    setLoading(true);
+    signInAnonymously().then(() => {
+      setLoading(false);
+      navigation.navigate('MainFlow');
+    });
+  };
+
   return [
     email,
     setEmail,
     emailError,
+    setEmailError,
     password,
     setPassword,
     passwordError,
     setPasswordError,
     onTryLogin,
+    onTryLoginAnonymously,
     loading,
   ];
 };

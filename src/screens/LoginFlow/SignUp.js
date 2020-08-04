@@ -18,12 +18,15 @@ const SignUp = () => {
     email,
     setEmail,
     emailError,
+    setEmailError,
     name,
     setName,
     nameError,
+    setNameError,
     password,
     setPassword,
     passwordError,
+    setPasswordError,
     onTrySignUp,
   ] = useSignUp();
   return (
@@ -42,6 +45,7 @@ const SignUp = () => {
         setText={setEmail}
         placeholder={texts.emailPlaceholder}
         error={emailError}
+        setError={setEmailError}
         autoCapitalize={false}
       />
       <TextInput
@@ -50,6 +54,7 @@ const SignUp = () => {
         setText={setName}
         placeholder={texts.namePlaceholder}
         error={nameError}
+        setError={setNameError}
       />
       <TextInput
         label={texts.passwordPlaceholder}
@@ -58,6 +63,7 @@ const SignUp = () => {
         secureTextEntry={true}
         placeholder={texts.passwordPlaceholder}
         error={passwordError}
+        setError={setPasswordError}
       />
       <TouchableOpacity onPress={onTrySignUp}>
         <View>

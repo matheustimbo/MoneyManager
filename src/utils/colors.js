@@ -1,4 +1,4 @@
-const common = {
+export const commonColors = {
   personalExpenses: '#FFCE6B',
   foodExpenses: '#FF6BD5',
   transportExpenses: '#3BD8AC',
@@ -13,22 +13,36 @@ const common = {
   othersRevenues: '#D8943B',
   primary: '#E72B75',
   accent: '#3626A7',
+  gradientColor1: '#DF0C60',
+  gradientColor2: '#AA1D55',
+  coloredBgText: 'white',
+  error: 'red',
+  selectedRevenue: 'rgb(60, 205, 106)',
+  unselectedRevenue: 'rgba(60, 205, 106, 0.4)',
+  selectedExpense: 'rgb(250, 122, 122)',
+  unselectedExpense: 'rgba(250, 122, 122, 0.4)',
+  revenueAmount: '#22AA99',
+  expenseAmount: '#EE4444',
+  zeroDayBar: '#BBBBBB',
+  itemDescription: '#555555',
+  transactionsHeader: '#FAFAFA',
 };
 
 export const colorPallete = {
   light: {
-    ...common,
+    ...commonColors,
     background: 'white',
     regularText: 'black',
-    inputBackground: '#FCBF49',
     modalFill: '#00000061',
     borderGrey: '#d3d3d3',
+    inputBackground: 'rgba(196,196,196,0.5)',
   },
 
   dark: {
-    ...common,
+    ...commonColors,
     background: '#000000',
     cardBackground: '#1F2125',
+    inputBackground: '#40444C',
     regularText: 'white',
   },
 };

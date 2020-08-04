@@ -9,6 +9,12 @@ export const getUid = async () => {
   return auth().currentUser.uid;
 };
 
+export const getUserInfo = async () => {
+  const userInfoSnapshot = await database()
+    .ref(`users/${auth().currentUser.uid}`)
+    .once('value');
+  return userInfoSnapshot.val();
+};
 export const signIn = async (email, password) => {
   return auth().signInWithEmailAndPassword(email, password);
 };
@@ -26,7 +32,7 @@ export const signOut = async () => {
 };
 
 export const registerUserData = async (name, email) => {
-  return database().ref(`users/${auth().currentUser.uid}`).push({
+  return database().ref(`users/${auth().currentUser.uid}`).set({
     name,
     email,
   });

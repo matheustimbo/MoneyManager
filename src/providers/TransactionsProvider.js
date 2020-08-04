@@ -2,9 +2,40 @@ import createDataContext from './createDataContext';
 import {getTransactions} from '../api/firebase';
 import {categories} from '../utils/categories';
 import moment from 'moment';
+import {texts} from '../utils/texts';
 
 const transactionsReducer = (state, action) => {
   switch (action.type) {
+    case 'change_new_transaction_category':
+      return {
+        ...state,
+        newTransaction: {...state.newTransaction, category: action.payload},
+      };
+    case 'reset_state':
+      return {
+        ...state,
+        transactions: [],
+        loadingTransactions: false,
+        balance: 0,
+        maskedBalance: 'R$ 0',
+        newTransaction: {
+          date: moment(new Date()).valueOf(),
+          value: 0,
+          currency: 'BRL',
+          description: '',
+          type: 'revenue',
+          category: undefined,
+        },
+      };
+    case 'set_balance':
+      return {
+        ...state,
+        balance: action.payload,
+        maskedBalance: Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        }).format(action.payload / 100),
+      };
     case 'set_transactions':
       return {
         ...state,
@@ -66,6 +97,10 @@ const changeNewTransactionDate = (dispatch) => (newDate) => {
   dispatch({type: 'change_new_transaction_date', payload: newDate});
 };
 
+const changeNewTransactionCategory = (dispatch) => (newCategory) => {
+  dispatch({type: 'change_new_transaction_category', payload: newCategory});
+};
+
 const resetNewTransaction = (dispatch) => () => {
   dispatch({type: 'reset_new_transaction'});
 };
@@ -73,7 +108,20 @@ const resetNewTransaction = (dispatch) => () => {
 const loadTransactions = (dispatch) => async () => {
   dispatch({type: 'set_loading_transactions', payload: true});
   let transactions = await getTransactions();
+  let balance = 0;
+  for (var i = 0; i < transactions.length; i++) {
+    var value =
+      transactions[i].type === texts.revenue
+        ? parseInt(transactions[i].value, 10)
+        : -parseInt(transactions[i].value, 10);
+    balance = parseInt(balance, 10) + value;
+  }
+  dispatch({type: 'set_balance', payload: balance});
   dispatch({type: 'set_transactions', payload: transactions});
+};
+
+const resetState = (dispatch) => () => {
+  dispatch({type: 'reset_state'});
 };
 
 export const {Provider, Context} = createDataContext(
@@ -84,19 +132,23 @@ export const {Provider, Context} = createDataContext(
     changeNewTransactionDescription,
     changeNewTransactionValue,
     changeNewTransactionDate,
+    changeNewTransactionCategory,
     resetNewTransaction,
     loadTransactions,
+    resetState,
   },
   {
     //initial state
     transactions: [],
     loadingTransactions: false,
+    balance: 0,
+    maskedBalance: 'R$ 0',
     newTransaction: {
       date: moment(new Date()).valueOf(),
       value: 0,
       currency: 'BRL',
       description: '',
-      type: 'revenue',
+      type: texts.revenue,
       category: undefined,
     },
   },

@@ -21,4 +21,13 @@ export const texts = {
   addTransaction: 'Adicionar transação',
   transactionDescriptionError: 'Insira uma descrição sobre sua transação',
   transactionValueError: 'Insira o valor da transação',
+  welcome: 'Bem-vindo,',
+  currentBalance: 'Balanço atual',
+  logout: 'Sair',
+  newTransaction: 'Nova transação',
+  category: 'Categoria',
+  in: 'Entrada',
+  out: 'Saída',
+  of: 'de',
+  transactions: 'Transações',
 };

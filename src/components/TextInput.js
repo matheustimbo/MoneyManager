@@ -26,7 +26,7 @@ const TextInput = ({
   const [colors] = useColors();
   return (
     <View>
-      <Text>{label}</Text>
+      <Text style={styles.label}>{label}</Text>
       {moneyMask ? (
         <TextInputMask
           type={'money'}
@@ -37,7 +37,7 @@ const TextInput = ({
           }}
           autoFocus
           style={[
-            styles.input,
+            styles.moneyInput,
             {
               borderColor: error !== '' ? colors.error : colors.primary,
               backgroundColor: colors.inputBackground,
@@ -66,7 +66,7 @@ const TextInput = ({
         />
       )}
 
-      <Text>{error}</Text>
+      <Text style={[styles.error, {color: colors.error}]}>{error}</Text>
     </View>
   );
 };
@@ -76,7 +76,25 @@ const styles = StyleSheet.create({
     width: width - 32,
     height: 48,
     paddingHorizontal: 8,
-    marginVertical: 16,
+    marginVertical: 8,
+  },
+  label: {
+    marginTop: 16,
+    fontSize: 24,
+  },
+  moneyInput: {
+    width: width - 64,
+    height: 120,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    fontSize: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+  },
+  error: {
+    marginTop: 4,
+    marginBottom: 16,
   },
 });
 
