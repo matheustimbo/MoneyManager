@@ -26,6 +26,8 @@ export const commonColors = {
   zeroDayBar: '#BBBBBB',
   itemDescription: '#555555',
   transactionsHeader: '#FAFAFA',
+  transparentContainer: 'rgba(0,0,0,0.4)',
+  authSelectionContainer: 'white',
 };
 
 export const colorPallete = {

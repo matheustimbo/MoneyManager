@@ -8,14 +8,14 @@ import {
   Dimensions,
   FlatList,
 } from 'react-native';
-import useColors from '../../hooks/useColors';
+import useColors from '../hooks/useColors';
 import {getStatusBarHeight} from 'react-native-iphone-x-helper';
-import TextInput from '../../components/TextInput';
-import {texts} from '../../utils/texts';
-import useNewTransaction from '../../hooks/useNewTransaction';
-import ArrowLeft from '../../assets/svgs/ArrowLeft';
-import {categories, categoriesArray} from '../../utils/categories';
-import CategoryOption from '../../components/CategoryOption';
+import TextInput from '../components/TextInput';
+import {texts} from '../utils/texts';
+import useNewTransaction from '../hooks/useNewTransaction';
+import ArrowLeft from '../assets/svgs/ArrowLeft';
+import {categories, categoriesArray} from '../utils/categories';
+import CategoryOption from '../components/CategoryOption';
 
 const {width} = Dimensions.get('window');
 
@@ -58,7 +58,7 @@ const AddNewTransaction = ({navigation}) => {
       </View>
       <View style={styles.screenContent}>
         <TextInput
-          label={''}
+          label=""
           text={newTransaction.value}
           setText={changeNewTransactionValue}
           placeholder={texts.transactionValue}

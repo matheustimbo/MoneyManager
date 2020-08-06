@@ -12,7 +12,7 @@ export default () => {
     signOut().then(() => {
       resetUserInfo();
       resetState();
-      navigation.navigate('LoginFlow');
+      navigation.navigate('Login');
     });
   };
 

@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 20,
     fontWeight: 'bold',
+    maxWidth: width * 0.6,
   },
   headerBalance: {
     alignItems: 'center',

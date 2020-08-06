@@ -30,4 +30,6 @@ export const texts = {
   out: 'Saída',
   of: 'de',
   transactions: 'Transações',
+  alreadyHaveAccount: 'Já tenho conta',
+  newAccount: 'Nova conta',
 };

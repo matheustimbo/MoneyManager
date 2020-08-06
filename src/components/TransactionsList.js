@@ -3,6 +3,7 @@ import {View} from 'react-native';
 import TransactionItem from './TransactionItem';
 
 const TransactionsList = ({transactions}) => {
+  console.log('transactionsssssss', transactions);
   return (
     <View>
       {transactions
