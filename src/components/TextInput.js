@@ -26,7 +26,7 @@ const TextInput = ({
   const [colors] = useColors();
   return (
     <View>
-      <Text style={styles.label}>{label}</Text>
+      {label ? <Text style={styles.label}>{label}</Text> : null}
       {moneyMask ? (
         <TextInputMask
           type={'money'}
@@ -47,7 +47,6 @@ const TextInput = ({
         />
       ) : (
         <DefaultTextInput
-          autoFocus
           style={[
             styles.input,
             {
@@ -62,21 +61,22 @@ const TextInput = ({
             setText(newText);
           }}
           secureTextEntry={secureTextEntry}
-          autoCapitalize={autoCapitalize}
+          autoCapitalize={autoCapitalize ? 'none' : 'sentences'}
         />
       )}
 
-      <Text style={[styles.error, {color: colors.error}]}>{error}</Text>
+      {error !== undefined && error !== '' && <Text style={[styles.error, {color: colors.error}]}>{error}</Text>}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   input: {
-    width: width - 32,
+    width: width * 0.8 - 32,
     height: 48,
     paddingHorizontal: 8,
-    marginVertical: 8,
+    marginVertical: 16,
+    borderRadius: 5,
   },
   label: {
     marginTop: 16,

@@ -1,5 +1,11 @@
 import React from 'react';
-import {View, Animated, Dimensions, StyleSheet} from 'react-native';
+import {
+  View,
+  Animated,
+  Dimensions,
+  StyleSheet,
+  RefreshControl,
+} from 'react-native';
 import TransactionsHeader from './TransactionsHeader';
 import TransactionsList from './TransactionsList';
 import WeekDaysBars from './WeekDaysBars';
@@ -15,11 +21,20 @@ const HomeScrollableContent = ({
   transactions,
   EXPANDED_HEADER_HEIGHT,
   FIXED_HEADER_HEIGHT,
+  loadTransactions,
+  loadingTransactions,
 }) => {
   return (
     <Animated.ScrollView
       style={{flex: 1}}
       showsVerticalScrollIndicator={false}
+      refreshing={loadingTransactions}
+      refreshControl={
+        <RefreshControl
+          refreshing={loadingTransactions}
+          onRefresh={loadTransactions}
+        />
+      }
       onScroll={Animated.event([{nativeEvent: {contentOffset: {y: scrollY}}}], {
         useNativeDriver: false,
       })}>

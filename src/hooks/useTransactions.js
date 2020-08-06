@@ -49,12 +49,42 @@ export default () => {
   ]);
 
   useEffect(() => {
+    console.log('transactions mudou', transactions);
     var weekRevenuesAux = [];
     var weekRevenuesAmountAux = 0;
     var weekExpensesAux = [];
     var weekExpensesAmountAux = 0;
 
-    var weekDaysAmountsAux = weekDaysAmounts;
+    var weekDaysAmountsAux = [
+      {
+        revenues: 0,
+        expenses: 0,
+      },
+      {
+        revenues: 0,
+        expenses: 0,
+      },
+      {
+        revenues: 0,
+        expenses: 0,
+      },
+      {
+        revenues: 0,
+        expenses: 0,
+      },
+      {
+        revenues: 0,
+        expenses: 0,
+      },
+      {
+        revenues: 0,
+        expenses: 0,
+      },
+      {
+        revenues: 0,
+        expenses: 0,
+      },
+    ];
 
     for (var i = 0; i < transactions.length; i++) {
       const transaction = transactions[i];

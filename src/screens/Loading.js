@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 import React, {useEffect, useContext} from 'react';
-import {View, Dimensions, StyleSheet} from 'react-native';
+import {View, Dimensions, StyleSheet, Platform, UIManager} from 'react-native';
 import useColors from '../hooks/useColors';
 import {getCurrentUser, getUserInfo} from '../api/firebase';
 import {Context as UserContext} from '../providers/UserProvider';
@@ -15,18 +15,22 @@ const Loading = ({navigation}) => {
   const {setUserInfo} = useContext(UserContext);
 
   useEffect(()=>{
-    console.log('entrou');
+    if (Platform.OS === 'android') {
+      if (UIManager.setLayoutAnimationEnabledExperimental) {
+        UIManager.setLayoutAnimationEnabledExperimental(true);
+      }
+    }
     getCurrentUser().then(currentUser=>{
       if (currentUser){
         getUserInfo()
         .then(userInfo=>{
           const {name, email} = userInfo;
           setUserInfo(name, email);
-          navigation.navigate('MainFlow');
+          navigation.navigate('Home');
         });
 
       } else {
-        navigation.navigate('LoginFlow');
+        navigation.navigate('Login');
       }
     });
 

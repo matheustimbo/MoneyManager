@@ -15,39 +15,45 @@ export default () => {
   const [passwordError, setPasswordError] = useState('');
   const [loading, setLoading] = useState(false);
   const {setUserInfo} = useContext(UserContext);
+  const {loadTransactions} = useContext(TransactionsContext);
 
   const onTryLogin = () => {
-    if (email === '') {
-      return setEmailError(texts.noEmailError);
-    }
-    if (password === '') {
-      return setPasswordError(texts.noPasswordError);
-    }
-    setPasswordError('');
-    setLoading(true);
-    signIn(email.trim(), password)
-      .then(() => {
-        getUserInfo().then((userInfo) => {
-          setUserInfo(userInfo.name, userInfo.email);
+    if (!loading) {
+      if (email === '') {
+        return setEmailError(texts.noEmailError);
+      }
+      if (password === '') {
+        return setPasswordError(texts.noPasswordError);
+      }
+      setPasswordError('');
+      setLoading(true);
+      signIn(email.trim(), password)
+        .then(() => {
+          getUserInfo().then(async (userInfo) => {
+            await setUserInfo(userInfo.name, userInfo.email);
+            await loadTransactions();
+            setLoading(false);
+            navigation.navigate('Home');
+          });
+        })
+        .catch((error) => {
           setLoading(false);
-          navigation.navigate('MainFlow');
+          console.log(error);
+          if (error.code === 'auth/wrong-password') {
+            setPasswordError(texts.wrongUserError);
+          }
         });
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log(error);
-        if (error.code === 'auth/wrong-password') {
-          setPasswordError(texts.wrongUserError);
-        }
-      });
+    }
   };
 
   const onTryLoginAnonymously = () => {
-    setLoading(true);
-    signInAnonymously().then(() => {
-      setLoading(false);
-      navigation.navigate('MainFlow');
-    });
+    if (!loading) {
+      setLoading(true);
+      signInAnonymously().then(() => {
+        setLoading(false);
+        navigation.navigate('Home');
+      });
+    }
   };
 
   return [
